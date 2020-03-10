@@ -1,0 +1,19 @@
+{
+  "name": "purescript-file-store",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-prelude": "^4.1.1",
+    "purescript-web-html": "^2.3.0",
+    "purescript-aff": "^5.1.2",
+    "purescript-promises": "^3.1.1",
+    "purescript-arraybuffer-types": "^2.0.0"
+  },
+  "devDependencies": {
+    "purescript-psci-support": "^4.0.0"
+  }
+}
