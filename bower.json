@@ -11,7 +11,9 @@
     "purescript-web-html": "^2.3.0",
     "purescript-aff": "^5.1.2",
     "purescript-promises": "^3.1.1",
-    "purescript-arraybuffer-types": "^2.0.0"
+    "purescript-base64": "purescript-base64-2#^2.0.0",
+    "purescript-arraybuffer-types": "^2.0.0",
+    "purescript-arraybuffer": "^10.0.2"
   },
   "devDependencies": {
     "purescript-psci-support": "^4.0.0"

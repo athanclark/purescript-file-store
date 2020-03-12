@@ -3,12 +3,16 @@ module Web.File.Store where
 import Prelude
 import Data.Maybe (Maybe)
 import Data.ArrayBuffer.Types (ArrayBuffer)
+import Data.MediaType (MediaType (..))
+import Data.ArrayBuffer.Typed (whole) as TA
+import Data.ArrayBuffer.Base64 (encodeBase64)
 import Effect (Effect)
 import Effect.Aff (Aff)
 import Effect.Class (liftEffect)
 import Web.DOM (Element)
 import Web.DOM.Document (toNonElementParentNode)
 import Web.DOM.NonElementParentNode (getElementById)
+import Web.File.Blob (Blob, fromArray)
 import Web.File.File (File, toBlob)
 import Web.File.FileList (item)
 import Web.HTML (window)
@@ -33,3 +37,13 @@ fileToArrayBuffer file = do
   let blob = toBlob file
   resp <- liftEffect (newResponse blob)
   getArrayBuffer resp
+
+
+arrayBufferToBlob :: ArrayBuffer -> Blob
+arrayBufferToBlob buffer = fromArray [unsafeCoerce buffer] (MediaType "application/octet-binary")
+
+
+makeBase64Href :: ArrayBuffer -> Effect String
+makeBase64Href buffer = do
+  value <- encodeBase64 <$> TA.whole buffer
+  pure ("data:application/openchronology;base64," <> value)
