@@ -40,7 +40,8 @@ fileToArrayBuffer file = do
 
 
 arrayBufferToBlob :: ArrayBuffer -> Blob
-arrayBufferToBlob buffer = fromArray [unsafeCoerce buffer] (MediaType "application/octet-binary")
+arrayBufferToBlob buffer =
+  fromArray [unsafeCoerce buffer] (MediaType "application/octet-binary")
 
 
 makeBase64Href :: ArrayBuffer -> Effect String
