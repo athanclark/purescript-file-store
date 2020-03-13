@@ -18037,11 +18037,11 @@ var importFile = function (id) {
                             if (eErr instanceof Data_Either.Right) {
                                 return ok(eErr.value0);
                             };
-                            throw new Error("Failed pattern match at Main (line 45, column 32 - line 47, column 34): " + [ eErr.constructor.name ]);
+                            throw new Error("Failed pattern match at Main (line 46, column 32 - line 48, column 34): " + [ eErr.constructor.name ]);
                         };
                         return Effect_Aff.runAff_(resolve)(Web_File_Store.fileToArrayBuffer(v.value0))();
                     };
-                    throw new Error("Failed pattern match at Main (line 42, column 9 - line 48, column 57): " + [ v.constructor.name ]);
+                    throw new Error("Failed pattern match at Main (line 43, column 9 - line 49, column 57): " + [ v.constructor.name ]);
                 };
             };
         });
@@ -18050,10 +18050,13 @@ var importFile = function (id) {
         return go(dictDeferred);
     });
 };
-var exportFileURL = function ($9) {
-    return Web_File_Url.createObjectURL(Web_File_Store.arrayBufferToBlob($9))();
-};
-var exportFileBase64 = Effect_Uncurried.mkEffectFn1(Web_File_Store.makeBase64Href);
+var exportFileURL = Effect_Uncurried.mkEffectFn2(function (media) {
+    var $9 = Web_File_Store.arrayBufferToBlob(media);
+    return function ($10) {
+        return Web_File_Url.createObjectURL($9($10));
+    };
+});
+var exportFileBase64 = Effect_Uncurried.mkEffectFn2(Web_File_Store.makeBase64Href);
 var main = function __do() {
     Effect_Console.log("Hello sailor!")();
     return $foreign.addToWindow({
@@ -19078,16 +19081,18 @@ var Web_File_FileList = require("../Web.File.FileList/index.js");
 var Web_HTML = require("../Web.HTML/index.js");
 var Web_HTML_HTMLDocument = require("../Web.HTML.HTMLDocument/index.js");
 var Web_HTML_Window = require("../Web.HTML.Window/index.js");
-var makeBase64Href = function (buffer) {
-    return function __do() {
-        var v = Data_Functor.map(Effect.functorEffect)(Data_ArrayBuffer_Base64.encodeBase64)(Data_ArrayBuffer_Typed.whole(Data_ArrayBuffer_Typed.typedArrayUint8)(buffer))();
-        return "data:application/openchronology;base64," + v;
+var makeBase64Href = function (v) {
+    return function (buffer) {
+        return function __do() {
+            var v1 = Data_Functor.map(Effect.functorEffect)(Data_ArrayBuffer_Base64.encodeBase64)(Data_ArrayBuffer_Typed.whole(Data_ArrayBuffer_Typed.typedArrayUint8)(buffer))();
+            return "data:" + (v + (";base64," + v1));
+        };
     };
 };
 var getFile = function (id) {
     return function __do() {
-        var v = Data_Functor.map(Effect.functorEffect)(function ($6) {
-            return Web_DOM_Document.toNonElementParentNode(Web_HTML_HTMLDocument.toDocument($6));
+        var v = Data_Functor.map(Effect.functorEffect)(function ($9) {
+            return Web_DOM_Document.toNonElementParentNode(Web_HTML_HTMLDocument.toDocument($9));
         })(Control_Bind.bind(Effect.bindEffect)(Web_HTML.window)(Web_HTML_Window.document))();
         var go = function (el) {
             return Web_File_FileList.item(0)(el.files);
@@ -19101,8 +19106,10 @@ var fileToArrayBuffer = function (file) {
         return Stream_Response.getArrayBuffer(v);
     });
 };
-var arrayBufferToBlob = function (buffer) {
-    return Web_File_Blob.fromArray([ buffer ])("application/octet-binary");
+var arrayBufferToBlob = function (media) {
+    return function (buffer) {
+        return Web_File_Blob.fromArray([ buffer ])(media);
+    };
 };
 module.exports = {
     getFile: getFile,

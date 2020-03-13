@@ -17,26 +17,26 @@
         <br />
         <script type="text/javascript">
          // via Base64
-         function () {
+         (function() {
              var link = document.createElement('a');
              var data = new Uint8Array([1,2,3,4]);
-             var url  = exportFileBase64(data.buffer);
+             var url  = exportFileBase64('application/openchronology', data.buffer);
              link.setAttribute('href', url);
              link.setAttribute('download', 'foo.och');
              link.innerText = 'export file via Base64';
              document.body.appendChild(link);
-         }();
+         })();
          document.body.appendChild(document.createElement('br'));
          // via URL
-         function () {
+         (function() {
             var link = document.createElement('a');
             var data = new Uint8Array([1,2,3,4]);
-            var url  = exportFileURL(data.buffer);
+            var url  = exportFileURL('application/openchronology', data.buffer);
             link.setAttribute('href', url);
             link.setAttribute('download', 'foo.och');
             link.innerText = 'export file via URL';
             document.body.appendChild(link);
-         }();
+         })();
         </script>
     </body>
 </html>
