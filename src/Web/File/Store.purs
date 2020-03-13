@@ -39,12 +39,12 @@ fileToArrayBuffer file = do
   getArrayBuffer resp
 
 
-arrayBufferToBlob :: ArrayBuffer -> Blob
-arrayBufferToBlob buffer =
-  fromArray [unsafeCoerce buffer] (MediaType "application/openchronology")
+arrayBufferToBlob :: MediaType -> ArrayBuffer -> Blob
+arrayBufferToBlob media buffer =
+  fromArray [unsafeCoerce buffer] media
 
 
-makeBase64Href :: ArrayBuffer -> Effect String
-makeBase64Href buffer = do
+makeBase64Href :: MediaType -> ArrayBuffer -> Effect String
+makeBase64Href (MediaType media) buffer = do
   value <- encodeBase64 <$> TA.whole buffer
-  pure ("data:application/openchronology;base64," <> value)
+  pure ("data:" <> media <> ";base64," <> value)

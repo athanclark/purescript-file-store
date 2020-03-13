@@ -15,15 +15,28 @@
         <input id="file-open" type="file" accept=".och" value="import file" />
         <button onclick="importImpl()">import file</button>
         <br />
-        <a href="data:application/openchronology;base64,AQIDBA==" download="foo.och" id="base64-export">export file via base64</a>
         <script type="text/javascript">
-         var link = document.createElement('a');
-         var data = new Uint8Array([1,2,3,4]);
-         var url  = exportFileURL(data.buffer);
-         link.setAttribute('href', url);
-         link.setAttribute('download', 'foo.och');
-         link.innerText = 'export file via URL';
-         document.body.appendChild(link);
+         // via Base64
+         function () {
+             var link = document.createElement('a');
+             var data = new Uint8Array([1,2,3,4]);
+             var url  = exportFileBase64(data.buffer);
+             link.setAttribute('href', url);
+             link.setAttribute('download', 'foo.och');
+             link.innerText = 'export file via Base64';
+             document.body.appendChild(link);
+         }();
+         document.body.appendChild(document.createElement('br'));
+         // via URL
+         function () {
+            var link = document.createElement('a');
+            var data = new Uint8Array([1,2,3,4]);
+            var url  = exportFileURL(data.buffer);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'foo.och');
+            link.innerText = 'export file via URL';
+            document.body.appendChild(link);
+         }();
         </script>
     </body>
 </html>

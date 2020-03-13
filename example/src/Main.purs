@@ -10,7 +10,7 @@ import Data.ArrayBuffer.Types (ArrayBuffer)
 import Data.Function.Uncurried (Fn1, mkFn1)
 import Effect (Effect)
 import Effect.Console (log)
-import Effect.Uncurried (EffectFn1, mkEffectFn1, runEffectFn1)
+import Effect.Uncurried (EffectFn2, mkEffectFn2, runEffectFn2)
 import Effect.Exception (throw)
 import Effect.Promise (Promise, promise)
 import Effect.Promise.Unsafe (undefer, class Deferred)
@@ -22,17 +22,17 @@ main = do
   runEffectFn1 addToWindow {exportFileBase64, exportFileURL, importFile}
 
 foreign import addToWindow :: EffectFn1
-                              { exportFileBase64 :: EffectFn1 ArrayBuffer String
-                              , exportFileURL :: EffectFn1 ArrayBuffer String
+                              { exportFileBase64 :: EffectFn2 MediaType ArrayBuffer String
+                              , exportFileURL :: EffectFn2 MediaType ArrayBuffer String
                               , importFile :: Fn1 String (Promise ArrayBuffer)
                               } Unit
 
 
-exportFileBase64 :: EffectFn1 ArrayBuffer String
-exportFileBase64 = mkEffectFn1 makeBase64Href
+exportFileBase64 :: EffectFn2 MediaType ArrayBuffer String
+exportFileBase64 = mkEffectFn2 makeBase64Href
 
-exportFileURL :: EffectFn1 ArrayBuffer String
-exportFileURL = mkEffectFn1 (createObjectURL <<< arrayBufferToBlob)
+exportFileURL :: EffectFn2 MediaType ArrayBuffer String
+exportFileURL = mkEffectFn2 (\media -> createObjectURL <<< arrayBufferToBlob media)
 
 importFile :: Fn1 String (Promise ArrayBuffer)
 importFile = mkFn1 \id ->
