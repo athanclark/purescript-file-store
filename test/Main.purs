@@ -1,7 +1,5 @@
 module Test.Main where
 
-import Web.File.Store (getFile, fileToArrayBuffer, makeBase64Href)
-
 import Prelude
 import Effect (Effect)
 import Effect.Console (log)
