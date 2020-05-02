@@ -5,7 +5,7 @@ import Data.Maybe (Maybe)
 import Data.ArrayBuffer.Types (ArrayBuffer)
 import Data.MediaType (MediaType (..))
 import Data.ArrayBuffer.Typed (whole) as TA
-import Data.ArrayBuffer.Base64 (encodeBase64)
+import Data.Binary.Base64 (encodeUrl)
 import Effect (Effect)
 import Effect.Aff (Aff)
 import Effect.Class (liftEffect)
@@ -46,5 +46,5 @@ arrayBufferToBlob media buffer =
 
 makeBase64Href :: MediaType -> ArrayBuffer -> Effect String
 makeBase64Href (MediaType media) buffer = do
-  value <- encodeBase64 <$> TA.whole buffer
+  value <- encodeUrl <$> TA.whole buffer
   pure ("data:" <> media <> ";base64," <> value)
